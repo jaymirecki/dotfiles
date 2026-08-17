@@ -1,0 +1,66 @@
+{
+  "model": "haiku",
+  "statusLine": {
+    "type": "command",
+    "command": "bash \"$HOME/dotfiles/claude/statusline-command.sh\""
+  },
+  "enabledPlugins": {
+    "crit@crit": true,
+    "superpowers@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "crit": {
+      "source": {
+        "source": "github",
+        "repo": "tomasz-tomczyk/crit"
+      }
+    }
+  },
+  "effortLevel": "medium",
+  "tui": "fullscreen",
+  "agentPushNotifEnabled": true,
+  "permissions": {
+    "additionalDirectories": [
+      "~/.muster/workspaces/"
+    ],
+    "allow": [
+      "Bash(gh issue *)",
+      "Bash(crit *)"
+    ]
+  },
+  "hooks": {
+    "TaskCompleted": [{
+      "matcher": "",
+      "hooks": [{
+        "type": "command",
+        "command": "[ -z \"$CLAUDE_MUTE_SOUNDS\" ] && afplay ~/.claude/sounds/r2d2_beepbooweep.mp3 2>/dev/null || true",
+        "statusMessage": "Task completed"
+      }]
+    }],
+    "PermissionRequest": [{
+      "matcher": "",
+      "hooks": [{
+        "type": "command",
+        "command": "[ -z \"$CLAUDE_MUTE_SOUNDS\" ] && afplay ~/.claude/sounds/r2d2_bewer.mp3 2>/dev/null || true",
+        "statusMessage": "Waiting for permission"
+      }]
+    }],
+    "Notification": [{
+      "matcher": "",
+      "hooks": [{
+        "type": "command",
+        "command": "[ -z \"$CLAUDE_MUTE_SOUNDS\" ] && afplay ~/.claude/sounds/r2d2_brrwzzrr.mp3 2>/dev/null || true",
+        "statusMessage": "Notification alert"
+      }]
+    }],
+    "Stop": [{
+      "matcher": "",
+      "hooks": [{
+        "type": "command",
+        "command": "[ -z \"$CLAUDE_MUTE_SOUNDS\" ] && afplay ~/.claude/sounds/r2d2_beepbeepboop.mp3 2>/dev/null || true",
+        "statusMessage": "Waiting for input",
+        "async": true
+      }]
+    }]
+  }
+}
