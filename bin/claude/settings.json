@@ -2,7 +2,7 @@
   "model": "haiku",
   "statusLine": {
     "type": "command",
-    "command": "bash \"$HOME/dotfiles/claude/statusline-command.sh\""
+    "command": "~/dotfiles/bin/claude/statusline-command.sh"
   },
   "enabledPlugins": {
     "crit@crit": true,
