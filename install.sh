@@ -114,6 +114,9 @@ if [ "$INSTALL_CLAUDE" = true ]; then
         cp "$DOTFILES/bin/claude/settings.json" ~/.claude/settings.json
     fi
 
+    # Link statusline script
+    ln -sf "$DOTFILES/bin/claude/statusline-command.sh" ~/.claude/statusline-command.sh
+
     # Link individual files for easy uninstallation
     for dir in commands skills sounds; do
         mkdir -p ~/.claude/$dir

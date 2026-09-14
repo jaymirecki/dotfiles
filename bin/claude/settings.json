@@ -1,9 +1,10 @@
 {
-  "model": "haiku",
+  "model": "sonnet",
   "statusLine": {
     "type": "command",
-    "command": "~/dotfiles/bin/claude/statusline-command.sh"
+    "command": "~/.claude/statusline-command.sh"
   },
+  "respectGitignore": false,
   "enabledPlugins": {
     "crit@crit": true,
     "superpowers@claude-plugins-official": true
@@ -19,13 +20,49 @@
   "effortLevel": "medium",
   "tui": "fullscreen",
   "agentPushNotifEnabled": true,
+  "modelSettings": {
+    "claude-sonnet-5": {
+      "effortLevel": "low"
+    }
+  },
   "permissions": {
+    "defaultMode": "acceptEdits",
     "additionalDirectories": [
       "~/.muster/workspaces/"
     ],
     "allow": [
       "Bash(gh issue *)",
-      "Bash(crit *)"
+      "Bash(crit *)",
+      "Bash(git status *)",
+      "Bash(git commit *)",
+      "Bash(git diff *)",
+      "Bash(just setup)",
+      "Bash(just install)",
+      "Bash(just test)",
+      "Bash(just lint)",
+      "Bash(just lint-write)",
+      "Bash(just gate)",
+      "Bash(git log *)",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git fetch *)",
+      "Bash(git branch *)",
+      "Bash(git show *)",
+      "Bash(npm run *)",
+      "Bash(npm test*)",
+      "Bash(yarn *)",
+      "Bash(pnpm *)",
+      "Bash(cat *)",
+      "Bash(ls *)",
+      "Bash(find *)",
+      "Bash(grep *)"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(git rebase *)",
+      "Bash(git merge *)",
+      "Bash(git pull *)",
+      "Bash(gh pr *)"
     ]
   },
   "hooks": {
