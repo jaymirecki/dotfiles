@@ -64,6 +64,19 @@ if [ "$UNINSTALL_CLAUDE" = true ]; then
 fi
 
 if [ "$UNINSTALL_CLAUDE" = true ]; then
+    # Remove CLAUDE.md managed section
+    if [ -f ~/.claude/CLAUDE.md ]; then
+        MARKER_START="# === DOTFILES MANAGED SECTION START ==="
+        MARKER_END="# === DOTFILES MANAGED SECTION END ==="
+
+        if grep -q "$MARKER_START" ~/.claude/CLAUDE.md; then
+            echo "Removing dotfiles section from ~/.claude/CLAUDE.md..."
+            sed -i.bak "/^$MARKER_START/,/^$MARKER_END/d" ~/.claude/CLAUDE.md
+        fi
+    fi
+fi
+
+if [ "$UNINSTALL_CLAUDE" = true ]; then
     # Remove Claude Code symlinks (but preserve settings.json and local files)
     if [ -d ~/.claude ]; then
         if [ -L ~/.claude/statusline-command.sh ]; then
@@ -92,6 +105,7 @@ if [ "$UNINSTALL_ZSH" = true ]; then
     echo "- ~/.zshrc has been cleaned (backup saved as ~/.zshrc.bak)"
 fi
 if [ "$UNINSTALL_CLAUDE" = true ]; then
+    echo "- ~/.claude/CLAUDE.md has been cleaned (backup saved as ~/.claude/CLAUDE.md.bak)"
     echo "- Local files in ~/.claude/commands/, skills/, and sounds/ are preserved"
     echo "- ~/.claude/settings.json is preserved (your local customizations)"
 fi
