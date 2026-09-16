@@ -39,15 +39,15 @@ done
 
 echo "🚀 Setting up dotfiles..."
 
+MARKER_START="# === DOTFILES MANAGED SECTION START ==="
+MARKER_END="# === DOTFILES MANAGED SECTION END ==="
+
 # Create directories if needed
 mkdir -p ~/.zsh
 
 if [ "$INSTALL_ZSH" = true ]; then
     # Merge zsh config
     echo "🔗 Merging .zshrc..."
-
-    MARKER_START="# === DOTFILES MANAGED SECTION START ==="
-    MARKER_END="# === DOTFILES MANAGED SECTION END ==="
 
     if [ -f ~/.zshrc ]; then
         # Check if already merged
@@ -74,16 +74,13 @@ if [ "$INSTALL_CLAUDE" = true ]; then
     # Merge AGENTS.md
     echo "🔗 Merging AGENTS.md..."
 
-    AGENTS_MARKER_START="# === DOTFILES MANAGED SECTION START ==="
-    AGENTS_MARKER_END="# === DOTFILES MANAGED SECTION END ==="
-
     mkdir -p ~/.agents
 
     if [ -f ~/.agents/AGENTS.md ]; then
         # Check if already merged
-        if grep -q "$AGENTS_MARKER_START" ~/.agents/AGENTS.md; then
+        if grep -q "$MARKER_START" ~/.agents/AGENTS.md; then
             # Remove old managed section
-            sed -i.bak "/^$AGENTS_MARKER_START/,/^$AGENTS_MARKER_END/d" ~/.agents/AGENTS.md
+            sed -i.bak "/^$MARKER_START/,/^$MARKER_END/d" ~/.agents/AGENTS.md
         fi
     else
         touch ~/.agents/AGENTS.md
@@ -92,12 +89,41 @@ if [ "$INSTALL_CLAUDE" = true ]; then
     # Append dotfiles AGENTS.md with markers
     {
         echo ""
-        echo "$AGENTS_MARKER_START"
+        echo "$MARKER_START"
         cat "$DOTFILES/bin/agents/AGENTS.md"
-        echo "$AGENTS_MARKER_END"
+        echo ""
+        echo "$MARKER_END"
     } >> ~/.agents/AGENTS.md
 
     echo "✓ AGENTS.md merged (local edits preserved)"
+fi
+
+if [ "$INSTALL_CLAUDE" = true ]; then
+    # Merge CLAUDE.md
+    echo "🔗 Merging CLAUDE.md..."
+
+    mkdir -p ~/.claude
+
+    if [ -f ~/.claude/CLAUDE.md ]; then
+        # Check if already merged
+        if grep -q "$MARKER_START" ~/.claude/CLAUDE.md; then
+            # Remove old managed section
+            sed -i.bak "/^$MARKER_START/,/^$MARKER_END/d" ~/.claude/CLAUDE.md
+        fi
+    else
+        touch ~/.claude/CLAUDE.md
+    fi
+
+    # Append dotfiles CLAUDE.md with markers
+    {
+        echo ""
+        echo "$MARKER_START"
+        cat "$DOTFILES/bin/claude/CLAUDE.md"
+        echo ""
+        echo "$MARKER_END"
+    } >> ~/.claude/CLAUDE.md
+
+    echo "✓ CLAUDE.md merged (local edits preserved)"
 fi
 
 if [ "$INSTALL_CLAUDE" = true ]; then
@@ -112,6 +138,14 @@ if [ "$INSTALL_CLAUDE" = true ]; then
     else
         echo "📋 Creating ~/.claude/settings.json from dotfiles..."
         cp "$DOTFILES/bin/claude/settings.json" ~/.claude/settings.json
+    fi
+
+    # Copy statusline script only if it doesn't exist
+    if [ -f ~/.claude/statusline-command.sh ]; then
+        echo "✓ ~/.claude/statusline-command.sh exists (preserving local edits)"
+    else
+        echo "📋 Creating ~/.claude/statusline-command.sh from dotfiles..."
+        cp "$DOTFILES/bin/claude/statusline-command.sh" ~/.claude/statusline-command.sh
     fi
 
     # Link individual files for easy uninstallation

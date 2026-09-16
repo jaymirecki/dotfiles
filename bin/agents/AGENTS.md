@@ -25,8 +25,13 @@
 - Always git fetch before creating a new branch.
 - Always set new branches to track the default branch. For example: `git checkout -b jaymirecki/134-new-branch origin/main`.
 - When creating a feature branch, name it based on the following template `<GIT_USERNAME>/<ISSUE-NUMBER>-<FEATURE-DESCRIPTION>`. For example: `jaymirecki/12-add-playwright-tests`.
-- Always use conventional commits.
+- Always use conventional commits, unless the repo's own conventions specify otherwise.
+- When creating a GitHub pull request, check for a PR template first with `gh repo view --json pullRequestTemplates`, and write the description to match the template's structure if one exists.
 
 ## Package Management
 
 - Always attempt to infer the correct package manager for a repository. For example, if a repo contains javascript and a package-lock.json file, then it probably uses npm instead of yarn.
+
+## Command Running
+
+- Prefer Justfile as a command runner. If a repo has a Justfile, use `just` commands instead of invoking npm/uv/etc directly, unless the repo's own conventions specify otherwise.

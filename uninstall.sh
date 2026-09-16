@@ -37,12 +37,12 @@ done
 
 echo "🗑️  Uninstalling dotfiles..."
 
+MARKER_START="# === DOTFILES MANAGED SECTION START ==="
+MARKER_END="# === DOTFILES MANAGED SECTION END ==="
+
 if [ "$UNINSTALL_ZSH" = true ]; then
     # Remove .zshrc managed section
     if [ -f ~/.zshrc ]; then
-        MARKER_START="# === DOTFILES MANAGED SECTION START ==="
-        MARKER_END="# === DOTFILES MANAGED SECTION END ==="
-
         if grep -q "$MARKER_START" ~/.zshrc; then
             echo "Removing dotfiles section from ~/.zshrc..."
             sed -i.bak "/^$MARKER_START/,/^$MARKER_END/d" ~/.zshrc
@@ -53,12 +53,19 @@ fi
 if [ "$UNINSTALL_CLAUDE" = true ]; then
     # Remove AGENTS.md managed section
     if [ -f ~/.agents/AGENTS.md ]; then
-        MARKER_START="# === DOTFILES MANAGED SECTION START ==="
-        MARKER_END="# === DOTFILES MANAGED SECTION END ==="
-
         if grep -q "$MARKER_START" ~/.agents/AGENTS.md; then
             echo "Removing dotfiles section from ~/.agents/AGENTS.md..."
             sed -i.bak "/^$MARKER_START/,/^$MARKER_END/d" ~/.agents/AGENTS.md
+        fi
+    fi
+fi
+
+if [ "$UNINSTALL_CLAUDE" = true ]; then
+    # Remove CLAUDE.md managed section
+    if [ -f ~/.claude/CLAUDE.md ]; then
+        if grep -q "$MARKER_START" ~/.claude/CLAUDE.md; then
+            echo "Removing dotfiles section from ~/.claude/CLAUDE.md..."
+            sed -i.bak "/^$MARKER_START/,/^$MARKER_END/d" ~/.claude/CLAUDE.md
         fi
     fi
 fi
@@ -87,7 +94,8 @@ if [ "$UNINSTALL_ZSH" = true ]; then
     echo "- ~/.zshrc has been cleaned (backup saved as ~/.zshrc.bak)"
 fi
 if [ "$UNINSTALL_CLAUDE" = true ]; then
+    echo "- ~/.claude/CLAUDE.md has been cleaned (backup saved as ~/.claude/CLAUDE.md.bak)"
     echo "- Local files in ~/.claude/commands/, skills/, and sounds/ are preserved"
-    echo "- ~/.claude/settings.json is preserved (your local customizations)"
+    echo "- ~/.claude/settings.json and ~/.claude/statusline-command.sh are preserved (your local customizations)"
 fi
 echo ""
