@@ -79,11 +79,6 @@ fi
 if [ "$UNINSTALL_CLAUDE" = true ]; then
     # Remove Claude Code symlinks (but preserve settings.json and local files)
     if [ -d ~/.claude ]; then
-        if [ -L ~/.claude/statusline-command.sh ]; then
-            echo "Removing symlink: ~/.claude/statusline-command.sh"
-            rm ~/.claude/statusline-command.sh
-        fi
-
         for dir in commands skills sounds; do
             if [ -d ~/.claude/$dir ]; then
                 for file in ~/.claude/$dir/*; do
@@ -107,6 +102,6 @@ fi
 if [ "$UNINSTALL_CLAUDE" = true ]; then
     echo "- ~/.claude/CLAUDE.md has been cleaned (backup saved as ~/.claude/CLAUDE.md.bak)"
     echo "- Local files in ~/.claude/commands/, skills/, and sounds/ are preserved"
-    echo "- ~/.claude/settings.json is preserved (your local customizations)"
+    echo "- ~/.claude/settings.json and ~/.claude/statusline-command.sh are preserved (your local customizations)"
 fi
 echo ""

@@ -146,8 +146,13 @@ if [ "$INSTALL_CLAUDE" = true ]; then
         cp "$DOTFILES/bin/claude/settings.json" ~/.claude/settings.json
     fi
 
-    # Link statusline script
-    ln -sf "$DOTFILES/bin/claude/statusline-command.sh" ~/.claude/statusline-command.sh
+    # Copy statusline script only if it doesn't exist
+    if [ -f ~/.claude/statusline-command.sh ]; then
+        echo "✓ ~/.claude/statusline-command.sh exists (preserving local edits)"
+    else
+        echo "📋 Creating ~/.claude/statusline-command.sh from dotfiles..."
+        cp "$DOTFILES/bin/claude/statusline-command.sh" ~/.claude/statusline-command.sh
+    fi
 
     # Link individual files for easy uninstallation
     for dir in commands skills sounds; do
