@@ -39,15 +39,15 @@ done
 
 echo "🚀 Setting up dotfiles..."
 
+MARKER_START="# === DOTFILES MANAGED SECTION START ==="
+MARKER_END="# === DOTFILES MANAGED SECTION END ==="
+
 # Create directories if needed
 mkdir -p ~/.zsh
 
 if [ "$INSTALL_ZSH" = true ]; then
     # Merge zsh config
     echo "🔗 Merging .zshrc..."
-
-    MARKER_START="# === DOTFILES MANAGED SECTION START ==="
-    MARKER_END="# === DOTFILES MANAGED SECTION END ==="
 
     if [ -f ~/.zshrc ]; then
         # Check if already merged
@@ -74,16 +74,13 @@ if [ "$INSTALL_CLAUDE" = true ]; then
     # Merge AGENTS.md
     echo "🔗 Merging AGENTS.md..."
 
-    AGENTS_MARKER_START="# === DOTFILES MANAGED SECTION START ==="
-    AGENTS_MARKER_END="# === DOTFILES MANAGED SECTION END ==="
-
     mkdir -p ~/.agents
 
     if [ -f ~/.agents/AGENTS.md ]; then
         # Check if already merged
-        if grep -q "$AGENTS_MARKER_START" ~/.agents/AGENTS.md; then
+        if grep -q "$MARKER_START" ~/.agents/AGENTS.md; then
             # Remove old managed section
-            sed -i.bak "/^$AGENTS_MARKER_START/,/^$AGENTS_MARKER_END/d" ~/.agents/AGENTS.md
+            sed -i.bak "/^$MARKER_START/,/^$MARKER_END/d" ~/.agents/AGENTS.md
         fi
     else
         touch ~/.agents/AGENTS.md
@@ -92,10 +89,10 @@ if [ "$INSTALL_CLAUDE" = true ]; then
     # Append dotfiles AGENTS.md with markers
     {
         echo ""
-        echo "$AGENTS_MARKER_START"
+        echo "$MARKER_START"
         cat "$DOTFILES/bin/agents/AGENTS.md"
         echo ""
-        echo "$AGENTS_MARKER_END"
+        echo "$MARKER_END"
     } >> ~/.agents/AGENTS.md
 
     echo "✓ AGENTS.md merged (local edits preserved)"
@@ -105,16 +102,13 @@ if [ "$INSTALL_CLAUDE" = true ]; then
     # Merge CLAUDE.md
     echo "🔗 Merging CLAUDE.md..."
 
-    CLAUDE_MD_MARKER_START="# === DOTFILES MANAGED SECTION START ==="
-    CLAUDE_MD_MARKER_END="# === DOTFILES MANAGED SECTION END ==="
-
     mkdir -p ~/.claude
 
     if [ -f ~/.claude/CLAUDE.md ]; then
         # Check if already merged
-        if grep -q "$CLAUDE_MD_MARKER_START" ~/.claude/CLAUDE.md; then
+        if grep -q "$MARKER_START" ~/.claude/CLAUDE.md; then
             # Remove old managed section
-            sed -i.bak "/^$CLAUDE_MD_MARKER_START/,/^$CLAUDE_MD_MARKER_END/d" ~/.claude/CLAUDE.md
+            sed -i.bak "/^$MARKER_START/,/^$MARKER_END/d" ~/.claude/CLAUDE.md
         fi
     else
         touch ~/.claude/CLAUDE.md
@@ -123,10 +117,10 @@ if [ "$INSTALL_CLAUDE" = true ]; then
     # Append dotfiles CLAUDE.md with markers
     {
         echo ""
-        echo "$CLAUDE_MD_MARKER_START"
+        echo "$MARKER_START"
         cat "$DOTFILES/bin/claude/CLAUDE.md"
         echo ""
-        echo "$CLAUDE_MD_MARKER_END"
+        echo "$MARKER_END"
     } >> ~/.claude/CLAUDE.md
 
     echo "✓ CLAUDE.md merged (local edits preserved)"
