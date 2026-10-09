@@ -2,6 +2,8 @@
 
 set -e
 
+DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Default: uninstall both
 UNINSTALL_ZSH=true
 UNINSTALL_CLAUDE=true
@@ -75,7 +77,7 @@ if [ "$UNINSTALL_CLAUDE" = true ]; then
     if [ -d ~/.claude ]; then
         for dir in commands skills sounds; do
             if [ -d ~/.claude/$dir ]; then
-                for file in ~/.claude/$dir/*; do
+                for file in ~/.claude/"$dir"/*; do
                     if [ -L "$file" ]; then
                         echo "Removing symlink: $file"
                         rm "$file"
@@ -83,6 +85,21 @@ if [ "$UNINSTALL_CLAUDE" = true ]; then
                 done
             fi
         done
+
+        # Sounds are installed as real copies. Remove each one that is still
+        # identical to the dotfiles version, and keep any that were edited.
+        if [ -d ~/.claude/sounds ]; then
+            for src in "$DOTFILES/bin/claude/sounds"/*; do
+                [ -f "$src" ] || continue
+                dst=~/.claude/sounds/"$(basename "$src")"
+                if [ -f "$dst" ] && cmp -s "$src" "$dst"; then
+                    echo "Removing sound file: $dst"
+                    rm "$dst"
+                elif [ -f "$dst" ]; then
+                    echo "Keeping modified sound file: $dst"
+                fi
+            done
+        fi
     fi
 fi
 
@@ -95,7 +112,7 @@ if [ "$UNINSTALL_ZSH" = true ]; then
 fi
 if [ "$UNINSTALL_CLAUDE" = true ]; then
     echo "- ~/.claude/CLAUDE.md has been cleaned (backup saved as ~/.claude/CLAUDE.md.bak)"
-    echo "- Local files in ~/.claude/commands/, skills/, and sounds/ are preserved"
+    echo "- Local files in ~/.claude/commands/, skills/, and sounds/ are preserved (sound files you edited are kept)"
     echo "- ~/.claude/settings.json and ~/.claude/statusline-command.sh are preserved (your local customizations)"
 fi
 echo ""
