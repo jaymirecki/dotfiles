@@ -1,13 +1,169 @@
 {
+  "respectGitignore": false,
+  "permissions": {
+    "allow": [
+      "Bash(cat *)",
+      "Bash(crit *)",
+      "Bash(find *)",
+      "Bash(gh issue list *)",
+      "Bash(gh issue view *)",
+      "Bash(gh issue status *)",
+      "Bash(gh pr list *)",
+      "Bash(gh pr view *)",
+      "Bash(gh pr status *)",
+      "Bash(gh pr diff *)",
+      "Bash(gh pr checks *)",
+      "Bash(gh repo view *)",
+      "Bash(gh repo list *)",
+      "Bash(gh label list *)",
+      "Bash(gh label view *)",
+      "Bash(gh search *)",
+      "Bash(gh run list *)",
+      "Bash(gh run view *)",
+      "Bash(gh workflow list *)",
+      "Bash(gh workflow view *)",
+      "Bash(git add *)",
+      "Bash(git branch *)",
+      "Bash(git checkout *)",
+      "Bash(git commit *)",
+      "Bash(git diff *)",
+      "Bash(git fetch *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git status *)",
+      "Bash(grep *)",
+      "Bash(just *)",
+      "Bash(ls *)",
+      "Bash(npm run *)",
+      "Bash(npm test *)",
+      "Bash(pnpm *)",
+      "Bash(yarn *)"
+    ],
+    "ask": [
+      "Bash(gh issue create *)",
+      "Bash(gh issue edit *)",
+      "Bash(gh issue close *)",
+      "Bash(gh issue reopen *)",
+      "Bash(gh issue delete *)",
+      "Bash(gh issue comment *)",
+      "Bash(gh issue transfer *)",
+      "Bash(gh issue pin *)",
+      "Bash(gh issue unpin *)",
+      "Bash(gh issue lock *)",
+      "Bash(gh issue unlock *)",
+      "Bash(gh pr create *)",
+      "Bash(gh pr edit *)",
+      "Bash(gh pr close *)",
+      "Bash(gh pr reopen *)",
+      "Bash(gh pr merge *)",
+      "Bash(gh pr review *)",
+      "Bash(gh pr comment *)",
+      "Bash(gh pr lock *)",
+      "Bash(gh pr unlock *)",
+      "Bash(gh pr ready *)",
+      "Bash(gh repo create *)",
+      "Bash(gh repo edit *)",
+      "Bash(gh repo delete *)",
+      "Bash(gh repo archive *)",
+      "Bash(gh repo rename *)",
+      "Bash(gh repo fork *)",
+      "Bash(gh label create *)",
+      "Bash(gh label edit *)",
+      "Bash(gh label delete *)",
+      "Bash(gh label clone *)",
+      "Bash(git merge *)",
+      "Bash(git pull *)",
+      "Bash(git push *)",
+      "Bash(git rebase *)",
+      "Bash(git reset *)"
+    ],
+    "defaultMode": "auto",
+    "additionalDirectories": [
+      "~/.muster/workspaces/"
+    ]
+  },
   "model": "sonnet",
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "matcher": "^(?!AskUserQuestion$|ExitPlanMode$).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/sounds/play_permission_sound.sh",
+            "statusMessage": "Waiting for permission"
+          }
+        ]
+      },
+      {
+        "matcher": "AskUserQuestion|ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/sounds/play_question_sound.sh",
+            "statusMessage": "Question",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "agent_needs_input",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/sounds/play_question_sound.sh",
+            "statusMessage": "Notification alert"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/sounds/play_stop_sound.sh",
+            "statusMessage": "Waiting for input",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/sounds/play_error_sound.sh",
+            "statusMessage": "Error",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Elicitation": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/sounds/play_question_sound.sh",
+            "statusMessage": "Question",
+            "async": true
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline-command.sh"
   },
-  "respectGitignore": false,
   "enabledPlugins": {
     "crit@crit": true,
-    "superpowers@claude-plugins-official": true
+    "superpowers@claude-plugins-official": true,
+    "personal-workflow@agentic-coding-library": true
   },
   "extraKnownMarketplaces": {
     "crit": {
@@ -15,84 +171,20 @@
         "source": "github",
         "repo": "tomasz-tomczyk/crit"
       }
+    },
+    "agentic-coding-library": {
+      "source": {
+        "source": "github",
+        "repo": "outoforbitdev/agentic-coding-library"
+      }
     }
   },
   "effortLevel": "medium",
-  "tui": "fullscreen",
-  "agentPushNotifEnabled": true,
   "modelSettings": {
     "claude-sonnet-5": {
       "effortLevel": "low"
     }
   },
-  "permissions": {
-    "defaultMode": "acceptEdits",
-    "additionalDirectories": [
-      "~/.muster/workspaces/"
-    ],
-    "allow": [
-      "Bash(gh issue *)",
-      "Bash(crit *)",
-      "Bash(git status *)",
-      "Bash(git commit *)",
-      "Bash(git diff *)",
-      "Bash(just *)",
-      "Bash(git log *)",
-      "Bash(git checkout *)",
-      "Bash(git add *)",
-      "Bash(git fetch *)",
-      "Bash(git branch *)",
-      "Bash(git show *)",
-      "Bash(npm run *)",
-      "Bash(npm test*)",
-      "Bash(yarn *)",
-      "Bash(pnpm *)",
-      "Bash(cat *)",
-      "Bash(ls *)",
-      "Bash(find *)",
-      "Bash(grep *)"
-    ],
-    "ask": [
-      "Bash(git push *)",
-      "Bash(git rebase *)",
-      "Bash(git merge *)",
-      "Bash(git pull *)",
-      "Bash(gh pr *)"
-    ]
-  },
-  "hooks": {
-    "TaskCompleted": [{
-      "matcher": "",
-      "hooks": [{
-        "type": "command",
-        "command": "[ -z \"$CLAUDE_MUTE_SOUNDS\" ] && afplay ~/.claude/sounds/r2d2_beepbooweep.mp3 2>/dev/null || true",
-        "statusMessage": "Task completed"
-      }]
-    }],
-    "PermissionRequest": [{
-      "matcher": "",
-      "hooks": [{
-        "type": "command",
-        "command": "[ -z \"$CLAUDE_MUTE_SOUNDS\" ] && afplay ~/.claude/sounds/r2d2_bewer.mp3 2>/dev/null || true",
-        "statusMessage": "Waiting for permission"
-      }]
-    }],
-    "Notification": [{
-      "matcher": "",
-      "hooks": [{
-        "type": "command",
-        "command": "[ -z \"$CLAUDE_MUTE_SOUNDS\" ] && afplay ~/.claude/sounds/r2d2_brrwzzrr.mp3 2>/dev/null || true",
-        "statusMessage": "Notification alert"
-      }]
-    }],
-    "Stop": [{
-      "matcher": "",
-      "hooks": [{
-        "type": "command",
-        "command": "[ -z \"$CLAUDE_MUTE_SOUNDS\" ] && afplay ~/.claude/sounds/r2d2_beepbeepboop.mp3 2>/dev/null || true",
-        "statusMessage": "Waiting for input",
-        "async": true
-      }]
-    }]
-  }
+  "tui": "fullscreen",
+  "agentPushNotifEnabled": true
 }
